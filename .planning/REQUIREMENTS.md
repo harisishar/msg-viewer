@@ -70,33 +70,33 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| UI-01 | — | Pending |
-| UI-02 | — | Pending |
-| EML-01 | — | Pending |
-| EML-02 | — | Pending |
-| EML-03 | — | Pending |
-| EML-04 | — | Pending |
-| EML-05 | — | Pending |
-| EML-06 | — | Pending |
-| EML-07 | — | Pending |
-| EML-08 | — | Pending |
-| EML-09 | — | Pending |
-| EML-10 | — | Pending |
-| ATT-01 | — | Pending |
-| ATT-02 | — | Pending |
-| ATT-03 | — | Pending |
-| ADV-01 | — | Pending |
-| ADV-02 | — | Pending |
-| SEC-01 | — | Pending |
-| SEC-02 | — | Pending |
-| ARCH-01 | — | Pending |
-| ARCH-02 | — | Pending |
+| UI-01 | Phase 3 | Pending |
+| UI-02 | Phase 1 | Pending |
+| EML-01 | Phase 2 | Pending |
+| EML-02 | Phase 2 | Pending |
+| EML-03 | Phase 2 | Pending |
+| EML-04 | Phase 2 | Pending |
+| EML-05 | Phase 2 | Pending |
+| EML-06 | Phase 2 | Pending |
+| EML-07 | Phase 2 | Pending |
+| EML-08 | Phase 2 | Pending |
+| EML-09 | Phase 2 | Pending |
+| EML-10 | Phase 2 | Pending |
+| ATT-01 | Phase 4 | Pending |
+| ATT-02 | Phase 4 | Pending |
+| ATT-03 | Phase 4 | Pending |
+| ADV-01 | Phase 4 | Pending |
+| ADV-02 | Phase 4 | Pending |
+| SEC-01 | Phase 2 | Pending |
+| SEC-02 | Phase 2 | Pending |
+| ARCH-01 | Phase 1 | Pending |
+| ARCH-02 | Phase 1 | Pending |
 
 **Coverage:**
 - v1 requirements: 21 total
-- Mapped to phases: 0
-- Unmapped: 21 ⚠️
+- Mapped to phases: 21
+- Unmapped: 0 ✓
 
 ---
 *Requirements defined: 2026-04-01*
-*Last updated: 2026-04-01 after initial definition*
+*Last updated: 2026-04-01 after roadmap creation*
