@@ -28,12 +28,12 @@ Decimal phases appear between their surrounding integers in numeric order.
   2. The existing MSG parser produces UnifiedMessage output and all current .msg test files render identically to before
   3. All UI components (headers, body, recipients) consume UnifiedMessage without format-specific conditionals
   4. The shared rendering pipeline produces identical output for a .msg file before and after the migration
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 01-01: Define UnifiedMessage interface and shared type contracts
-- [ ] 01-02: Migrate MSG parser to produce UnifiedMessage
-- [ ] 01-03: Update UI components to consume UnifiedMessage
+- [ ] 01-01-PLAN.md — Define UnifiedMessage interface and migrate MSG parser to produce it
+- [ ] 01-02-PLAN.md — Update all UI components and entry point to consume UnifiedMessage
+- [ ] 01-03-PLAN.md — End-to-end build verification and human rendering check
 
 ### Phase 2: EML Parser Core
 **Goal**: A complete parseEml() function that handles all real-world MIME structures correctly and safely
