@@ -1,3 +1,7 @@
+// DEPRECATED: These types are internal to msg-parser.ts only.
+// All public APIs use UnifiedMessage from lib/scripts/types/unified-message.ts.
+// This file is retained only for reference during Phase 1 migration.
+
 export interface Message {
   file: CompoundFile,
   content: MessageContent,

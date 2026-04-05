@@ -5,36 +5,110 @@ import { ATTACH_PROPERTIES, PropertySource, RECIP_PROPERTIES, ROOT_PROPERTIES, t
 import { getPropertyStreamEntry } from "./streams/property/property-stream";
 import { PtypBinary, PtypObject, PtypString, PtypTime, type PropertyType } from "./streams/property/property-types";
 import type { PropertyStreamEntry } from "./streams/property/types/property-stream-entry";
-import type { Attachment, Message, MessageContent, Recipient } from "./types/message";
+import type { UnifiedMessage, UnifiedMessageContent, UnifiedAttachment, UnifiedRecipient } from "../types/unified-message";
 
-export function parse(view: DataView): Message {
+interface RawContent {
+  date: Date;
+  subject: string;
+  senderName: string;
+  senderEmail: string;
+  body: string;
+  bodyHTML: string;
+  bodyRTF: DataView;
+  headers: string;
+  toRecipients: string;
+  ccRecipients: string;
+}
+
+interface RawAttachment {
+  extension: string;
+  fileName: string;
+  mimeType: string;
+  language: string;
+  displayName: string;
+  content: DataView;
+  embeddedMsgObj: DirectoryEntry;
+}
+
+interface RawRecipient {
+  name: string;
+  email: string;
+}
+
+export function parse(view: DataView): UnifiedMessage {
   const file = CompoundFile.create(view);
   const dir = file.directory.entries[0];
 
   return parseDir(file, dir);
 }
 
-export function parseDir(file: CompoundFile, dir: DirectoryEntry): Message {
+export function parseDir(file: CompoundFile, dir: DirectoryEntry): UnifiedMessage {
   const pStreamEntry = getPropertyStreamEntry(file, dir)!;
+  const rawContent = getValue<RawContent>(file, ROOT_PROPERTIES, dir, pStreamEntry);
+  const rawAttachments = getValues<RawAttachment>(file, dir, ATTACH_PROPERTIES, "attach");
+  const rawRecipients = getValues<RawRecipient>(file, dir, RECIP_PROPERTIES, "recip");
 
-  return { 
-    file: file,
-    content: getContent(file, dir, pStreamEntry), 
-    attachments: getAttachments(file, dir),
-    recipients: getRecipients(file, dir),
+  return {
+    content: mapContent(rawContent),
+    attachments: mapAttachments(file, rawAttachments),
+    recipients: mapRecipients(rawContent, rawRecipients),
   };
 }
 
-function getContent(file: CompoundFile, dir: DirectoryEntry, pStreamEntry: PropertyStreamEntry): MessageContent {
-  return getValue(file, ROOT_PROPERTIES, dir, pStreamEntry);
+function mapContent(raw: RawContent): UnifiedMessageContent {
+  return {
+    date: raw.date ?? null,
+    subject: raw.subject ?? "",
+    senderName: raw.senderName ?? "",
+    senderEmail: raw.senderEmail ?? "",
+    body: raw.body ?? "",
+    bodyHTML: raw.bodyHTML ?? "",
+    bodyRTF: raw.bodyRTF,  // DataView, keep as-is for decompressRTF()
+    headers: raw.headers ?? "",
+  };
 }
 
-function getRecipients(file: CompoundFile, dir: DirectoryEntry): Recipient[] {
-  return getValues(file, dir, RECIP_PROPERTIES, "recip");
+function mapAttachments(file: CompoundFile, rawAttachments: RawAttachment[]): UnifiedAttachment[] {
+  return rawAttachments.map(raw => {
+    const attachment: UnifiedAttachment = {
+      fileName: raw.fileName ?? "",
+      displayName: raw.displayName ?? "",
+      mimeType: raw.mimeType ?? "",
+    };
+
+    if (raw.embeddedMsgObj) {
+      // Property 3701 as PtypObject — embedded message
+      attachment.embeddedMessage = parseDir(file, raw.embeddedMsgObj as unknown as DirectoryEntry);
+    } else if (raw.content) {
+      // Property 3701 as PtypBinary — binary attachment
+      const dv = raw.content as DataView;
+      attachment.content = new Uint8Array(dv.buffer, dv.byteOffset, dv.byteLength);
+    }
+
+    return attachment;
+  });
 }
 
-function getAttachments(file: CompoundFile, dir: DirectoryEntry): Attachment[] {
-  return getValues(file, dir, ATTACH_PROPERTIES, "attach");
+function mapRecipients(rawContent: RawContent, rawRecipients: RawRecipient[]): UnifiedRecipient[] {
+  const toSet = parseRecipientString(rawContent.toRecipients);
+  const ccSet = parseRecipientString(rawContent.ccRecipients);
+
+  return rawRecipients.map(raw => ({
+    name: raw.name ?? "",
+    email: raw.email ?? "",
+    type: toSet.has(raw.name) ? 'to' as const
+        : ccSet.has(raw.name) ? 'cc' as const
+        : 'to' as const,  // default to 'to' if not found
+  }));
+}
+
+function parseRecipientString(recipStr: string): Set<string> {
+  if (!recipStr) return new Set();
+  return new Set(
+    recipStr.endsWith('\x00')
+      ? recipStr.slice(0, -1).split("; ")
+      : recipStr.split("; ")
+  );
 }
 
 function getValues<T>(file: CompoundFile, dir: DirectoryEntry, properties: Property[], prefix: string): T[] {
@@ -63,7 +137,7 @@ function getValue<T>(file: CompoundFile, properties: Property[], dir: DirectoryE
       if (!value) return acc;
       acc[p.name as keyof T] = value as T[keyof T];
     }
-    
+
     return acc;
   }, {} as T);
 }
@@ -71,14 +145,14 @@ function getValue<T>(file: CompoundFile, properties: Property[], dir: DirectoryE
 function getValueFromProperty(entry: PropertyStreamEntry, property: Property) {
   const value = entry.data.get(property.id.toLowerCase())?.valueOrSize;
   if (!value) return "";
-  
+
   switch (property.type) {
     case PtypTime: {
       // Subtracting the number of seconds between January 1, 1601 and January 1, 1970.
       return new Date(Number(value as bigint / 10000n) - 1.16444736e13);
     }
     default: return value;
-  }  
+  }
 }
 
 function getValueFromStream(file: CompoundFile, entry: DirectoryEntry, type: PropertyType)  {
