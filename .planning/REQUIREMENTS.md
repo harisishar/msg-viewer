@@ -41,8 +41,8 @@
 
 ### Architecture
 
-- [ ] **ARCH-01**: EML parser is a separate module alongside msg-parser following the same structural pattern
-- [ ] **ARCH-02**: Both parsers produce a unified message interface consumed by shared UI components
+- [x] **ARCH-01**: EML parser is a separate module alongside msg-parser following the same structural pattern
+- [x] **ARCH-02**: Both parsers produce a unified message interface consumed by shared UI components
 
 ## v2 Requirements
 
@@ -89,8 +89,8 @@
 | ADV-02 | Phase 4 | Pending |
 | SEC-01 | Phase 2 | Pending |
 | SEC-02 | Phase 2 | Pending |
-| ARCH-01 | Phase 1 | Pending |
-| ARCH-02 | Phase 1 | Pending |
+| ARCH-01 | Phase 1 | Complete |
+| ARCH-02 | Phase 1 | Complete |
 
 **Coverage:**
 - v1 requirements: 21 total
