@@ -1,12 +1,11 @@
-import type { DirectoryEntry } from "../../scripts/msg/compound-file/directory/types/directory-entry";
-import type { Message, MessageContent } from "../../scripts/msg/types/message";
+import type { UnifiedMessage, UnifiedMessageContent } from "../../scripts/types/unified-message";
 import { createFragmentFromTemplate } from "../../scripts/utils/html-template-util";
 import { attachmentsFragment } from "../attachment";
 import { embeddedMsgsFragment } from "../embedded-msg";
 import { recipientsFragments } from "../recipient";
 import template from "./index.html" with { type: "text" };
 
-export function messageFragment(message: Message, renderDir: (dir: DirectoryEntry) => void): DocumentFragment {
+export function messageFragment(message: UnifiedMessage, onEmbedded: (embedded: UnifiedMessage) => void): DocumentFragment {
   const [toRecip, ccRecip] = recipientsFragments(message);
 
   const model: MessageViewModel = {
@@ -18,7 +17,7 @@ export function messageFragment(message: Message, renderDir: (dir: DirectoryEntr
 
   const container = createFragmentFromTemplate(template, model);
   addFragmentToContainer(container, ".msg-attachs", attachmentsFragment(message), false);
-  addFragmentToContainer(container, ".msg-embedded-msgs", embeddedMsgsFragment(message, renderDir), true);
+  addFragmentToContainer(container, ".msg-embedded-msgs", embeddedMsgsFragment(message, onEmbedded), true);
   addFragmentToContainer(container, ".msg-recip-to", toRecip, false);
   addFragmentToContainer(container, ".msg-recip-cc", ccRecip, false);
 
@@ -49,7 +48,7 @@ function addFragmentToContainer(container: DocumentFragment, className: string, 
   element.replaceChildren(fragment);
 }
 
-function getName(content: MessageContent): string {
+function getName(content: UnifiedMessageContent): string {
   let name = content.senderName ?? "";
   if (content.senderEmail) {
     name += ` &lt;${content.senderEmail}&gt;`;
@@ -57,7 +56,7 @@ function getName(content: MessageContent): string {
   return name;
 }
 
-function getDate(content: MessageContent): string {
+function getDate(content: UnifiedMessageContent): string {
   return content.date?.toLocaleString('en-US', {
     weekday: "short",
     month: '2-digit',
