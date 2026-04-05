@@ -1,7 +1,7 @@
 import { messageFragment } from "../components/message";
 import { errorFragment } from "../components/error";
-import type { Message } from "./msg/types/message";
-import { parse, parseDir } from "@molotochok/msg-viewer";
+import type { UnifiedMessage } from "./types/unified-message";
+import { parse } from "@molotochok/msg-viewer";
 
 const $file = document.getElementById("file")!;
 
@@ -38,13 +38,13 @@ async function updateMessage(files: FileList) {
   );
 }
 
-function renderMessage($msg: HTMLElement, getMessage: () => Message, updateDom: (fragment: DocumentFragment) => void) {
+function renderMessage($msg: HTMLElement, getMessage: () => UnifiedMessage, updateDom: (fragment: DocumentFragment) => void) {
   let fragment: DocumentFragment;
-  try {    
+  try {
     const message = getMessage();
-    fragment = messageFragment(message, dir => {
+    fragment = messageFragment(message, (embedded: UnifiedMessage) => {
       renderMessage($msg,
-        () => parseDir(message.file, dir), 
+        () => embedded,
         (fragment) => {
           for (let i = 0; i < $msg.children.length; i++) {
             const child = $msg.children[i] as HTMLElement;
