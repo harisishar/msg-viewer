@@ -2,14 +2,14 @@
 gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
-status: executing
-stopped_at: "Completed 01-unified-interface-foundation/01-01-PLAN.md"
-last_updated: "2026-04-01T00:15:00.000Z"
+status: unknown
+stopped_at: Completed 01-unified-interface-foundation/01-02-PLAN.md
+last_updated: "2026-04-05T10:01:28.542Z"
 progress:
   total_phases: 4
   completed_phases: 0
   total_plans: 3
-  completed_plans: 1
+  completed_plans: 2
 ---
 
 # Project State
@@ -46,6 +46,7 @@ Plan: 2 of 3
 - Trend: —
 
 *Updated after each plan completion*
+| Phase 01-unified-interface-foundation P02 | 15 | 2 tasks | 5 files |
 
 ## Accumulated Context
 
@@ -62,6 +63,8 @@ Recent decisions affecting current work:
 - 01-01: CompoundFile/DirectoryEntry dropped from UnifiedMessage — OLE2 internal types must not leak into public API
 - 01-01: Embedded messages pre-parsed eagerly via recursive parseDir() — callers never handle DirectoryEntry
 - 01-01: RawContent/RawAttachment/RawRecipient defined inline in msg-parser.ts — private implementation detail
+- [Phase 01-02]: Recipient filtering uses r.type field — toSet() and string-split logic removed entirely
+- [Phase 01-02]: Embedded message callback receives UnifiedMessage directly — no DirectoryEntry or parseDir in rendering layer
 
 ### Pending Todos
 
@@ -74,6 +77,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-01T00:15:00.000Z
-Stopped at: Completed 01-unified-interface-foundation/01-01-PLAN.md
-Resume file: .planning/phases/01-unified-interface-foundation/01-02-PLAN.md
+Last session: 2026-04-05T10:01:28.540Z
+Stopped at: Completed 01-unified-interface-foundation/01-02-PLAN.md
+Resume file: None
