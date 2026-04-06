@@ -3,13 +3,13 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 02-02-PLAN.md
-last_updated: "2026-04-06T08:28:30Z"
+stopped_at: Completed 02-03-PLAN.md
+last_updated: "2026-04-06T08:36:24.394Z"
 progress:
   total_phases: 4
-  completed_phases: 1
+  completed_phases: 2
   total_plans: 6
-  completed_plans: 4
+  completed_plans: 6
 ---
 
 # Project State
@@ -48,6 +48,7 @@ Plan: 2 of 3
 *Updated after each plan completion*
 | Phase 01-unified-interface-foundation P02 | 15 | 2 tasks | 5 files |
 | Phase 02 P01 | 1 | 2 tasks | 3 files |
+| Phase 02-eml-parser-core P03 | 6 | 2 tasks | 6 files |
 
 ## Accumulated Context
 
@@ -74,6 +75,9 @@ Recent decisions affecting current work:
 - [Phase 02-02]: initSanitizer() called once at module load — DOMPurify hook registered once
 - [Phase 02-02]: blob: and data: src protocols not blocked — Phase 4 needs object URLs for CID images
 - [Phase 02-02]: Plain text body bypasses DOMPurify — only HTML requires sanitization
+- [Phase 02-03]: HTMLRewriter-based fallback sanitizer added for Bun test env — DOMPurify requires browser window unavailable in Bun test runner
+- [Phase 02-03]: sanitizeHTML made async to support DOMPurify (sync, browser) and HTMLRewriter (async, Bun) code paths
+- [Phase 02-03]: DOMPurify lazy-initialized only when real browser window present — linkedom rejected as it does not actually sanitize
 
 ### Pending Todos
 
@@ -86,6 +90,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-06T08:28:30Z
-Stopped at: Completed 02-02-PLAN.md
+Last session: 2026-04-06T08:36:24.392Z
+Stopped at: Completed 02-03-PLAN.md
 Resume file: None
