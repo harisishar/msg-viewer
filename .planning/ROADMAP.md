@@ -45,12 +45,12 @@ Plans:
   3. User sees plain text body rendered correctly when no HTML part is present, and HTML is preferred over plain text when both exist in a multipart/alternative structure
   4. User sees correct body content from emails with multipart/mixed and multipart/alternative structures, including correctly decoded quoted-printable and base64 content
   5. Remote images in HTML body are blocked by default and international characters display correctly via charset decoding
-**Plans**: TBD
+**Plans**: 3 plans
 
 Plans:
-- [ ] 02-01: Install postal-mime, define eml-parser module structure, implement CRLF normalization and header extraction with RFC 2047 decoding
-- [ ] 02-02: Implement body parsing — recursive multipart traversal, charset decoding, QP/base64 decoding, multipart/alternative selection
-- [ ] 02-03: Integrate DOMPurify for HTML body sanitization and implement remote image blocking
+- [ ] 02-01-PLAN.md — Install postal-mime and dompurify, create eml-parser.ts postal-mime adapter with full header/body/attachment mapping
+- [ ] 02-02-PLAN.md — Add DOMPurify HTML sanitization with email-safe allowlist and remote image blocking
+- [ ] 02-03-PLAN.md — Create .eml test fixtures and comprehensive test suite validating all 12 requirements
 
 ### Phase 3: Entry Point Integration
 **Goal**: Users can load both .msg and .eml files through one unified file picker and drag-and-drop interface
