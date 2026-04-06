@@ -60,10 +60,10 @@ Plans:
   1. User can drag-and-drop a .eml file onto the existing drop zone and see it rendered — the drop zone accepts both .msg and .eml files
   2. User can use the file picker to select either a .msg or a .eml file from a single input that accepts both formats
   3. Dropping an unsupported file type shows a clear error message rather than silently failing
-**Plans**: TBD
+**Plans**: 1 plan
 
 Plans:
-- [ ] 03-01: Add format detection to index.ts, update file picker accept attribute, update drag-and-drop handler, wire parseEml into dispatch
+- [ ] 03-01-PLAN.md — Test scaffold + format detection, file picker accept update, drag-and-drop guard replacement, parseEml dispatch wiring
 
 ### Phase 4: Enhanced Features
 **Goal**: Users get the full attachment and advanced rendering experience for .eml files: download attachments, see inline images, navigate embedded messages, inspect raw headers
