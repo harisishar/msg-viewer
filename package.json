@@ -9,7 +9,8 @@
     "bun-plugin-html": "^2.0.0"
   },
   "scripts": {
-    "clean": "rm -rf build"
+    "clean": "rm -rf build",
+    "test": "bun test --dom"
   },
   "peerDependencies": {
     "typescript": "^5.0.0"

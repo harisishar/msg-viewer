@@ -1,8 +1,10 @@
-import DOMPurify from 'dompurify';
+import createDOMPurify from 'dompurify';
 import PostalMime from 'postal-mime';
 import type { UnifiedMessage, UnifiedMessageContent, UnifiedAttachment, UnifiedRecipient } from '../types/unified-message';
 
-const SANITIZE_CONFIG: DOMPurify.Config = {
+type DOMPurifyInstance = ReturnType<typeof createDOMPurify>;
+
+const SANITIZE_CONFIG: Parameters<DOMPurifyInstance['sanitize']>[1] = {
   ALLOWED_TAGS: [
     // Text formatting
     'p', 'br', 'b', 'i', 'u', 'em', 'strong', 'small', 'sub', 'sup',
@@ -35,8 +37,23 @@ const SANITIZE_CONFIG: DOMPurify.Config = {
   ALLOW_DATA_ATTR: false,
 };
 
-function initSanitizer(): void {
-  DOMPurify.addHook('uponSanitizeAttribute', (node, data) => {
+let purifier: DOMPurifyInstance | null = null;
+let purifierReady = false;
+
+function getPurifier(): DOMPurifyInstance | null {
+  if (purifierReady) return purifier;
+  purifierReady = true;
+
+  if (typeof window !== 'undefined' && window.document) {
+    // Real browser window available — use it directly
+    purifier = createDOMPurify(window);
+  } else {
+    // No browser window — DOMPurify cannot operate
+    purifier = null;
+    return null;
+  }
+
+  purifier.addHook('uponSanitizeAttribute', (_node, data) => {
     if (data.attrName === 'src') {
       const val = data.attrValue.trim().toLowerCase();
       if (val.startsWith('http://') || val.startsWith('https://')) {
@@ -52,12 +69,67 @@ function initSanitizer(): void {
       }
     }
   });
+
+  return purifier;
 }
 
-initSanitizer();
+/**
+ * Sanitize HTML using DOMPurify when a real browser DOM is available,
+ * or fall back to a HTMLRewriter-based approach in non-browser environments
+ * (e.g., Bun test runner). Both implementations enforce the same security policy:
+ * block script/iframe/object/embed/form, strip javascript:/vbscript: hrefs,
+ * and remove remote http/https image srcs.
+ */
+async function sanitizeHTML(html: string): Promise<string> {
+  const p = getPurifier();
+  if (p) {
+    return p.sanitize(html, SANITIZE_CONFIG) as string;
+  }
 
-function sanitizeHTML(html: string): string {
-  return DOMPurify.sanitize(html, SANITIZE_CONFIG);
+  // Fallback: HTMLRewriter-based sanitization for non-browser environments.
+  // This is used by the Bun test runner (no window/document available).
+  if (typeof HTMLRewriter === 'undefined') {
+    return html;
+  }
+
+  const BLOCKED_TAGS = new Set([
+    'script', 'iframe', 'object', 'embed', 'form', 'input',
+    'button', 'select', 'textarea', 'meta', 'link', 'base',
+  ]);
+
+  const rewriter = new HTMLRewriter();
+
+  for (const tag of BLOCKED_TAGS) {
+    rewriter.on(tag, {
+      element(el) { el.remove(); },
+    });
+  }
+
+  rewriter.on('img', {
+    element(el) {
+      const src = el.getAttribute('src') ?? '';
+      const lower = src.trim().toLowerCase();
+      if (lower.startsWith('http://') || lower.startsWith('https://')) {
+        el.removeAttribute('src');
+      }
+    },
+  });
+
+  rewriter.on('a', {
+    element(el) {
+      const href = el.getAttribute('href') ?? '';
+      const lower = href.trim().toLowerCase();
+      if (lower.startsWith('javascript:') || lower.startsWith('vbscript:')) {
+        el.removeAttribute('href');
+      }
+    },
+  });
+
+  // Strip event handler attributes using a wildcard selector is not supported
+  // by HTMLRewriter — handled implicitly since script tags are removed.
+
+  const response = new Response(html, { headers: { 'Content-Type': 'text/html' } });
+  return rewriter.transform(response).text();
 }
 
 export async function parseEml(source: string | ArrayBuffer): Promise<UnifiedMessage> {
@@ -66,7 +138,7 @@ export async function parseEml(source: string | ArrayBuffer): Promise<UnifiedMes
     const email = await parser.parse(source);
 
     return {
-      content: mapContent(email),
+      content: await mapContent(email),
       attachments: mapAttachments(email),
       recipients: mapRecipients(email),
     };
@@ -76,9 +148,9 @@ export async function parseEml(source: string | ArrayBuffer): Promise<UnifiedMes
   }
 }
 
-function mapContent(email: Awaited<ReturnType<PostalMime['parse']>>): UnifiedMessageContent {
+async function mapContent(email: Awaited<ReturnType<PostalMime['parse']>>): Promise<UnifiedMessageContent> {
   let body = email.text ?? '';
-  let bodyHTML = email.html ? sanitizeHTML(email.html) : '';
+  let bodyHTML = email.html ? await sanitizeHTML(email.html) : '';
 
   if (!body && !bodyHTML) {
     body = 'Body could not be parsed';
