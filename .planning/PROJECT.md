@@ -24,9 +24,9 @@ Users can open and read any `.msg` or `.eml` email file in their browser with fu
 
 ### Active
 
-- [ ] Parse .eml files (RFC 822/MIME format) with full parity to .msg support
-- [ ] Extract headers from .eml (subject, from, to, cc, date)
-- [ ] Extract body content from .eml (HTML, plain text, multipart)
+- ✓ Parse .eml files (RFC 822/MIME format) with full parity to .msg support — Phase 2
+- ✓ Extract headers from .eml (subject, from, to, cc, date) — Phase 2
+- ✓ Extract body content from .eml (HTML, plain text, multipart) — Phase 2
 - [ ] Extract attachments from .eml (MIME parts with Content-Disposition: attachment)
 - [ ] Handle embedded messages in .eml (message/rfc822 MIME parts)
 - [ ] Unified file picker accepting both .msg and .eml
@@ -65,4 +65,4 @@ Users can open and read any `.msg` or `.eml` email file in their browser with fu
 | No new heavy dependencies for .eml | MIME/RFC822 is text-based, can be parsed with built-in APIs | — Pending |
 
 ---
-*Last updated: 2026-04-06 after Phase 1 completion*
+*Last updated: 2026-04-06 after Phase 2 completion*
