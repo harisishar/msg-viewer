@@ -16,7 +16,7 @@
 - [x] **EML-02**: User sees correct Subject, From, To, CC, and Date headers extracted from .eml
 - [x] **EML-03**: User sees non-ASCII header values decoded correctly (RFC 2047 encoded-words)
 - [x] **EML-04**: User sees plain text body rendered from text/plain MIME part
-- [ ] **EML-05**: User sees HTML body rendered from text/html MIME part (with XSS sanitization)
+- [x] **EML-05**: User sees HTML body rendered from text/html MIME part (with XSS sanitization)
 - [x] **EML-06**: User sees correct body when email has multipart/alternative (HTML preferred, plain text fallback)
 - [x] **EML-07**: User sees correct body and attachments when email has multipart/mixed structure
 - [x] **EML-08**: User sees correct international characters via charset decoding (UTF-8, ISO-8859-*, etc.)
@@ -36,8 +36,8 @@
 
 ### Security
 
-- [ ] **SEC-01**: HTML body content is sanitized before rendering (no script execution, no event handlers, no dangerous hrefs)
-- [ ] **SEC-02**: Remote images in HTML body are blocked by default (privacy protection)
+- [x] **SEC-01**: HTML body content is sanitized before rendering (no script execution, no event handlers, no dangerous hrefs)
+- [x] **SEC-02**: Remote images in HTML body are blocked by default (privacy protection)
 
 ### Architecture
 
@@ -76,7 +76,7 @@
 | EML-02 | Phase 2 | Complete |
 | EML-03 | Phase 2 | Complete |
 | EML-04 | Phase 2 | Complete |
-| EML-05 | Phase 2 | Pending |
+| EML-05 | Phase 2 | Complete |
 | EML-06 | Phase 2 | Complete |
 | EML-07 | Phase 2 | Complete |
 | EML-08 | Phase 2 | Complete |
@@ -87,8 +87,8 @@
 | ATT-03 | Phase 4 | Pending |
 | ADV-01 | Phase 4 | Pending |
 | ADV-02 | Phase 4 | Pending |
-| SEC-01 | Phase 2 | Pending |
-| SEC-02 | Phase 2 | Pending |
+| SEC-01 | Phase 2 | Complete |
+| SEC-02 | Phase 2 | Complete |
 | ARCH-01 | Phase 1 | Complete |
 | ARCH-02 | Phase 1 | Complete |
 

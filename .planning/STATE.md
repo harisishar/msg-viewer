@@ -3,8 +3,8 @@ gsd_state_version: 1.0
 milestone: v1.0
 milestone_name: milestone
 status: unknown
-stopped_at: Completed 02-01-PLAN.md
-last_updated: "2026-04-06T08:26:09.368Z"
+stopped_at: Completed 02-02-PLAN.md
+last_updated: "2026-04-06T08:28:30Z"
 progress:
   total_phases: 4
   completed_phases: 1
@@ -24,7 +24,7 @@ See: .planning/PROJECT.md (updated 2026-04-01)
 ## Current Position
 
 Phase: 02 (eml-parser-core) — EXECUTING
-Plan: 1 of 3
+Plan: 2 of 3
 
 ## Performance Metrics
 
@@ -70,6 +70,10 @@ Recent decisions affecting current work:
 - [Phase 02-01]: postal-mime default import used (new PostalMime() instance per parse call) — stateless, safe for concurrent use
 - [Phase 02-01]: DOMPurify NOT imported in eml-parser.ts — HTML sanitization explicitly deferred to plan 02-02
 - [Phase 02-01]: Empty body fallback message set when both email.text and email.html are absent
+- [Phase 02-02]: SANITIZE_CONFIG defined as module-level constant — config not recreated per parse call
+- [Phase 02-02]: initSanitizer() called once at module load — DOMPurify hook registered once
+- [Phase 02-02]: blob: and data: src protocols not blocked — Phase 4 needs object URLs for CID images
+- [Phase 02-02]: Plain text body bypasses DOMPurify — only HTML requires sanitization
 
 ### Pending Todos
 
@@ -82,6 +86,6 @@ None yet.
 
 ## Session Continuity
 
-Last session: 2026-04-06T08:26:01.137Z
-Stopped at: Completed 02-01-PLAN.md
+Last session: 2026-04-06T08:28:30Z
+Stopped at: Completed 02-02-PLAN.md
 Resume file: None
