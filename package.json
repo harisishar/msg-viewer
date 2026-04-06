@@ -5,6 +5,7 @@
   "main": "index.js",
   "devDependencies": {
     "@types/bun": "latest",
+    "@types/dompurify": "^3.0.5",
     "bun-plugin-html": "^2.0.0"
   },
   "scripts": {
@@ -15,6 +16,9 @@
   },
   "license": "MIT",
   "dependencies": {
-    "@molotochok/msg-viewer": "^1.0.3"
+    "@fal-ai/client": "^1.9.5",
+    "@molotochok/msg-viewer": "^1.0.3",
+    "dompurify": "^3.3.3",
+    "postal-mime": "^2.7.4"
   }
 }
