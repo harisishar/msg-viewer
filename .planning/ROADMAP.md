@@ -12,7 +12,7 @@ The existing `.msg` viewer is working and deployed. This milestone adds full `.e
 
 Decimal phases appear between their surrounding integers in numeric order.
 
-- [ ] **Phase 1: Unified Interface Foundation** - Define the shared UnifiedMessage type contract and migrate the existing MSG parser and all UI components to it
+- [x] **Phase 1: Unified Interface Foundation** - Define the shared UnifiedMessage type contract and migrate the existing MSG parser and all UI components to it
 - [ ] **Phase 2: EML Parser Core** - Build the complete EML parser with all correctness requirements: headers, body, encoding, charset, and XSS sanitization
 - [ ] **Phase 3: Entry Point Integration** - Wire both parsers into the application with format detection, unified file picker, and drag-and-drop support
 - [ ] **Phase 4: Enhanced Features** - Deliver attachments, inline CID images, embedded message rendering, and raw header inspection
@@ -31,9 +31,9 @@ Decimal phases appear between their surrounding integers in numeric order.
 **Plans**: 3 plans
 
 Plans:
-- [ ] 01-01-PLAN.md — Define UnifiedMessage interface and migrate MSG parser to produce it
-- [ ] 01-02-PLAN.md — Update all UI components and entry point to consume UnifiedMessage
-- [ ] 01-03-PLAN.md — End-to-end build verification and human rendering check
+- [x] 01-01-PLAN.md — Define UnifiedMessage interface and migrate MSG parser to produce it
+- [x] 01-02-PLAN.md — Update all UI components and entry point to consume UnifiedMessage
+- [x] 01-03-PLAN.md — End-to-end build verification and human rendering check
 
 ### Phase 2: EML Parser Core
 **Goal**: A complete parseEml() function that handles all real-world MIME structures correctly and safely
@@ -88,7 +88,7 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 
 | Phase | Plans Complete | Status | Completed |
 |-------|----------------|--------|-----------|
-| 1. Unified Interface Foundation | 0/3 | Not started | - |
+| 1. Unified Interface Foundation | 3/3 | Complete | 2026-04-01 |
 | 2. EML Parser Core | 0/3 | Not started | - |
 | 3. Entry Point Integration | 0/1 | Not started | - |
 | 4. Enhanced Features | 0/3 | Not started | - |
