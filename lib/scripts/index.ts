@@ -2,40 +2,65 @@ import { messageFragment } from "../components/message";
 import { errorFragment } from "../components/error";
 import type { UnifiedMessage } from "./types/unified-message";
 import { parse } from "@molotochok/msg-viewer";
+import { parseEml } from "./eml/eml-parser";
 
-const $file = document.getElementById("file")!;
+export function getExtension(filename: string): string {
+  const dot = filename.lastIndexOf('.');
+  return dot === -1 ? '' : filename.slice(dot + 1).toLowerCase();
+}
 
-$file.addEventListener("change", async (event) => {
-  const target = event.target as HTMLInputElement;
-  if (target?.files?.length === 0) return;
-  updateMessage(target.files!);
-});
+// DOM initialisation — only runs in a browser context (not in test runners)
+if (typeof document !== 'undefined') {
+  const $file = document.getElementById("file")!;
 
-// To reset the file input
-$file.addEventListener("click", (event) => (event.target as HTMLInputElement).value = "");
+  $file.addEventListener("change", async (event) => {
+    const target = event.target as HTMLInputElement;
+    if (target?.files?.length === 0) return;
+    updateMessage(target.files!);
+  });
 
+  // To reset the file input
+  $file.addEventListener("click", (event) => (event.target as HTMLInputElement).value = "");
 
-const target = document.documentElement;
-target.addEventListener("dragover", (event) => event.preventDefault());
-target.addEventListener("drop", (event) => {
-  event.preventDefault();
-  
-  const files = event.dataTransfer!.files;
-  if (files.length == 0) return;
-  if (!files[0].name.endsWith(".msg")) return;
-  
-  const $file = document.getElementById("file")! as HTMLInputElement;
-  $file.files = files;
-  updateMessage(files);
-});
+  const target = document.documentElement;
+  target.addEventListener("dragover", (event) => event.preventDefault());
+  target.addEventListener("drop", (event) => {
+    event.preventDefault();
 
-async function updateMessage(files: FileList) {
-  const arrayBuffer = await files[0].arrayBuffer();
+    const files = event.dataTransfer!.files;
+    if (files.length == 0) return;
+
+    const $file = document.getElementById("file")! as HTMLInputElement;
+    $file.files = files;
+    updateMessage(files);
+  });
+}
+
+export async function updateMessage(files: FileList) {
+  const file = files[0];
+  const ext = getExtension(file.name);
   const $msg = document.getElementById("msg")!;
-  renderMessage($msg, 
-    () => parse(new DataView(arrayBuffer)), 
-    (fragment) => $msg.replaceChildren(fragment)
-  );
+
+  if (ext !== 'msg' && ext !== 'eml') {
+    $msg.replaceChildren(errorFragment("Unsupported file format. Please select a .msg or .eml file."));
+    return;
+  }
+
+  const arrayBuffer = await file.arrayBuffer();
+  let message: UnifiedMessage;
+  try {
+    if (ext === 'eml') {
+      message = await parseEml(arrayBuffer);
+    } else {
+      message = parse(new DataView(arrayBuffer));
+    }
+  } catch (e) {
+    window.gtag('event', 'exception', { description: e, fatal: true });
+    $msg.replaceChildren(errorFragment(`An error occurred during the parsing of the email file. Error: ${e}`));
+    return;
+  }
+
+  renderMessage($msg, () => message, (fragment) => $msg.replaceChildren(fragment));
 }
 
 function renderMessage($msg: HTMLElement, getMessage: () => UnifiedMessage, updateDom: (fragment: DocumentFragment) => void) {
@@ -55,8 +80,8 @@ function renderMessage($msg: HTMLElement, getMessage: () => UnifiedMessage, upda
       );
     });
   } catch (e) {
-    window.gtag('event', 'exception', { 'description': e, 'fatal': true });
-    fragment = errorFragment(`An error occured during the parsing of the .msg file. Error: ${e}`);
+    window.gtag('event', 'exception', { description: e, fatal: true });
+    fragment = errorFragment(`An error occurred during the parsing of the email file. Error: ${e}`);
   }
 
   updateDom(fragment);
