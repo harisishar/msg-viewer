@@ -1,0 +1,10 @@
+From: John Doe <john@example.com>
+To: Jane Smith <jane@example.com>
+CC: Bob <bob@example.com>
+Subject: Test Email Subject
+Date: Mon, 01 Apr 2026 10:00:00 +0000
+MIME-Version: 1.0
+Content-Type: text/plain; charset=utf-8
+Content-Transfer-Encoding: 7bit
+
+This is the plain text body of the test email.

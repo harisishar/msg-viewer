@@ -1,0 +1,20 @@
+From: Sender Name <sender@example.com>
+To: recipient@example.com
+Subject: Email With Attachment
+Date: Thu, 03 Apr 2026 09:00:00 +0000
+MIME-Version: 1.0
+Content-Type: multipart/mixed; boundary="mixedboundary456"
+
+--mixedboundary456
+Content-Type: text/plain; charset=utf-8
+
+This email has an attachment.
+
+--mixedboundary456
+Content-Type: text/plain; name="hello.txt"
+Content-Transfer-Encoding: base64
+Content-Disposition: attachment; filename="hello.txt"
+
+SGVsbG8sIFdvcmxkIQ==
+
+--mixedboundary456--

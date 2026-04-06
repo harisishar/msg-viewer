@@ -1,0 +1,26 @@
+From: Sender Name <sender@example.com>
+To: recipient@example.com
+Subject: Multipart Test
+Date: Tue, 02 Apr 2026 12:00:00 +0000
+MIME-Version: 1.0
+Content-Type: multipart/alternative; boundary="boundary123"
+
+--boundary123
+Content-Type: text/plain; charset=utf-8
+
+Plain text version of the email.
+
+--boundary123
+Content-Type: text/html; charset=utf-8
+
+<html><body>
+<p>Hello <b>World</b></p>
+<table><tr><td>Cell</td></tr></table>
+<script>alert('xss')</script>
+<img src="https://tracker.example.com/pixel.gif" alt="tracking">
+<img src="data:image/png;base64,iVBOR" alt="inline">
+<a href="javascript:alert('xss')">Click</a>
+<a href="https://example.com">Safe Link</a>
+</body></html>
+
+--boundary123--
