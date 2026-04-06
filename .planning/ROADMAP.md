@@ -14,7 +14,7 @@ Decimal phases appear between their surrounding integers in numeric order.
 
 - [x] **Phase 1: Unified Interface Foundation** - Define the shared UnifiedMessage type contract and migrate the existing MSG parser and all UI components to it
 - [ ] **Phase 2: EML Parser Core** - Build the complete EML parser with all correctness requirements: headers, body, encoding, charset, and XSS sanitization
-- [ ] **Phase 3: Entry Point Integration** - Wire both parsers into the application with format detection, unified file picker, and drag-and-drop support
+- [x] **Phase 3: Entry Point Integration** - Wire both parsers into the application with format detection, unified file picker, and drag-and-drop support (completed 2026-04-06)
 - [ ] **Phase 4: Enhanced Features** - Deliver attachments, inline CID images, embedded message rendering, and raw header inspection
 
 ## Phase Details
@@ -90,5 +90,5 @@ Phases execute in numeric order: 1 → 2 → 3 → 4
 |-------|----------------|--------|-----------|
 | 1. Unified Interface Foundation | 3/3 | Complete | 2026-04-01 |
 | 2. EML Parser Core | 2/3 | In Progress|  |
-| 3. Entry Point Integration | 0/1 | Not started | - |
+| 3. Entry Point Integration | 1/1 | Complete   | 2026-04-06 |
 | 4. Enhanced Features | 0/3 | Not started | - |

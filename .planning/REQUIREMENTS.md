@@ -7,7 +7,7 @@
 
 ### Unified Interface
 
-- [ ] **UI-01**: User can select or drag-and-drop both .msg and .eml files in a single file picker
+- [x] **UI-01**: User can select or drag-and-drop both .msg and .eml files in a single file picker
 - [x] **UI-02**: User sees identical rendering regardless of whether the source file was .msg or .eml
 
 ### EML Parser Core
@@ -70,7 +70,7 @@
 
 | Requirement | Phase | Status |
 |-------------|-------|--------|
-| UI-01 | Phase 3 | Pending |
+| UI-01 | Phase 3 | Complete |
 | UI-02 | Phase 1 | Complete |
 | EML-01 | Phase 2 | Complete |
 | EML-02 | Phase 2 | Complete |
