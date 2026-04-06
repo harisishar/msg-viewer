@@ -12,16 +12,16 @@
 
 ### EML Parser Core
 
-- [ ] **EML-01**: User can open a standard .eml file and see the parsed message content
-- [ ] **EML-02**: User sees correct Subject, From, To, CC, and Date headers extracted from .eml
-- [ ] **EML-03**: User sees non-ASCII header values decoded correctly (RFC 2047 encoded-words)
-- [ ] **EML-04**: User sees plain text body rendered from text/plain MIME part
+- [x] **EML-01**: User can open a standard .eml file and see the parsed message content
+- [x] **EML-02**: User sees correct Subject, From, To, CC, and Date headers extracted from .eml
+- [x] **EML-03**: User sees non-ASCII header values decoded correctly (RFC 2047 encoded-words)
+- [x] **EML-04**: User sees plain text body rendered from text/plain MIME part
 - [ ] **EML-05**: User sees HTML body rendered from text/html MIME part (with XSS sanitization)
-- [ ] **EML-06**: User sees correct body when email has multipart/alternative (HTML preferred, plain text fallback)
-- [ ] **EML-07**: User sees correct body and attachments when email has multipart/mixed structure
-- [ ] **EML-08**: User sees correct international characters via charset decoding (UTF-8, ISO-8859-*, etc.)
-- [ ] **EML-09**: User sees correct content decoded from quoted-printable transfer encoding
-- [ ] **EML-10**: User sees correct content decoded from base64 transfer encoding
+- [x] **EML-06**: User sees correct body when email has multipart/alternative (HTML preferred, plain text fallback)
+- [x] **EML-07**: User sees correct body and attachments when email has multipart/mixed structure
+- [x] **EML-08**: User sees correct international characters via charset decoding (UTF-8, ISO-8859-*, etc.)
+- [x] **EML-09**: User sees correct content decoded from quoted-printable transfer encoding
+- [x] **EML-10**: User sees correct content decoded from base64 transfer encoding
 
 ### Attachments
 
@@ -72,16 +72,16 @@
 |-------------|-------|--------|
 | UI-01 | Phase 3 | Pending |
 | UI-02 | Phase 1 | Complete |
-| EML-01 | Phase 2 | Pending |
-| EML-02 | Phase 2 | Pending |
-| EML-03 | Phase 2 | Pending |
-| EML-04 | Phase 2 | Pending |
+| EML-01 | Phase 2 | Complete |
+| EML-02 | Phase 2 | Complete |
+| EML-03 | Phase 2 | Complete |
+| EML-04 | Phase 2 | Complete |
 | EML-05 | Phase 2 | Pending |
-| EML-06 | Phase 2 | Pending |
-| EML-07 | Phase 2 | Pending |
-| EML-08 | Phase 2 | Pending |
-| EML-09 | Phase 2 | Pending |
-| EML-10 | Phase 2 | Pending |
+| EML-06 | Phase 2 | Complete |
+| EML-07 | Phase 2 | Complete |
+| EML-08 | Phase 2 | Complete |
+| EML-09 | Phase 2 | Complete |
+| EML-10 | Phase 2 | Complete |
 | ATT-01 | Phase 4 | Pending |
 | ATT-02 | Phase 4 | Pending |
 | ATT-03 | Phase 4 | Pending |
