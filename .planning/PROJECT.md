@@ -30,7 +30,7 @@ Users can open and read any `.msg` or `.eml` email file in their browser with fu
 - [ ] Extract attachments from .eml (MIME parts with Content-Disposition: attachment)
 - [ ] Handle embedded messages in .eml (message/rfc822 MIME parts)
 - [ ] Unified file picker accepting both .msg and .eml
-- [ ] Same rendering pipeline for both formats (shared UI components)
+- ✓ Same rendering pipeline for both formats (shared UI components) — Phase 1
 
 ### Out of Scope
 
@@ -65,4 +65,4 @@ Users can open and read any `.msg` or `.eml` email file in their browser with fu
 | No new heavy dependencies for .eml | MIME/RFC822 is text-based, can be parsed with built-in APIs | — Pending |
 
 ---
-*Last updated: 2026-04-01 after initialization*
+*Last updated: 2026-04-06 after Phase 1 completion*
